@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/bootloader
+C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/bootloader.rule
+C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/bootloader-complete.rule
+C:/Users/soere/esp/workspace/Bilderrahmen/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+C:/Users/soere/esp/workspace/Bilderrahmen/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+C:/Users/soere/esp/workspace/Bilderrahmen/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+C:/Users/soere/esp/workspace/Bilderrahmen/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+C:/Users/soere/esp/workspace/Bilderrahmen/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+C:/Users/soere/esp/workspace/Bilderrahmen/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+C:/Users/soere/esp/workspace/Bilderrahmen/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule

@@ -1,0 +1,20 @@
+{
+    "project_name":       "bootloader",
+    "project_path":       "C:/Users/soere/esp/esp-idf/components/bootloader/subproject",
+    "build_dir":          "C:/Users/soere/esp/workspace/Bilderrahmen/build/bootloader",
+    "config_file":        "C:/Users/soere/esp/workspace/Bilderrahmen/sdkconfig",
+    "config_defaults":    "",
+    "app_elf":            "bootloader.elf",
+    "app_bin":            "bootloader.bin",
+    "git_revision":       "v4.1-dirty",
+    "target":             "esp32",
+    "phy_data_partition": "",
+    "monitor_baud" :      "115200",
+    "monitor_toolprefix": "xtensa-esp32-elf-",
+    "config_environment" : {
+        "COMPONENT_KCONFIGS" : "C:/Users/soere/esp/esp-idf/components/efuse/Kconfig;C:/Users/soere/esp/esp-idf/components/esp32/Kconfig;C:/Users/soere/esp/esp-idf/components/esp_common/Kconfig;C:/Users/soere/esp/esp-idf/components/log/Kconfig;C:/Users/soere/esp/esp-idf/components/spi_flash/Kconfig",
+        "COMPONENT_KCONFIGS_PROJBUILD" : "C:/Users/soere/esp/esp-idf/components/bootloader/Kconfig.projbuild;C:/Users/soere/esp/esp-idf/components/esptool_py/Kconfig.projbuild;C:/Users/soere/esp/esp-idf/components/partition_table/Kconfig.projbuild"
+    },
+    "build_components" : [ "bootloader", "bootloader_support", "efuse", "esp32", "esp_common", "esp_rom", "esptool_py", "log", "main", "micro-ecc", "partition_table", "soc", "spi_flash", "xtensa", "" ],
+    "build_component_paths" : [ "C:/Users/soere/esp/esp-idf/components/bootloader", "C:/Users/soere/esp/esp-idf/components/bootloader_support", "C:/Users/soere/esp/esp-idf/components/efuse", "C:/Users/soere/esp/esp-idf/components/esp32", "C:/Users/soere/esp/esp-idf/components/esp_common", "C:/Users/soere/esp/esp-idf/components/esp_rom", "C:/Users/soere/esp/esp-idf/components/esptool_py", "C:/Users/soere/esp/esp-idf/components/log", "C:/Users/soere/esp/esp-idf/components/bootloader/subproject/main", "C:/Users/soere/esp/esp-idf/components/bootloader/subproject/components/micro-ecc", "C:/Users/soere/esp/esp-idf/components/partition_table", "C:/Users/soere/esp/esp-idf/components/soc", "C:/Users/soere/esp/esp-idf/components/spi_flash", "C:/Users/soere/esp/esp-idf/components/xtensa", "" ]
+}
