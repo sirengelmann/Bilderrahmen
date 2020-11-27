@@ -38,9 +38,12 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
 	  unsigned char g = img[3*index + 1];
 	  unsigned char b = img[3*index + 2];
 
-      r = constrainChar(r + floorf(errR * 7.0/16.0));
+      /*r = constrainChar(r + floorf(errR * 7.0/16.0));
       g = constrainChar(g + floorf(errG * 7.0/16.0));
-      b = constrainChar(b + floorf(errB * 7.0/16.0));
+      b = constrainChar(b + floorf(errB * 7.0/16.0));*/
+	  r = constrainChar(r + ((errR * 7) / 16));
+	  g = constrainChar(g + ((errG * 7) / 16));
+	  b = constrainChar(b + ((errB * 7) / 16));
 
       img[3*index] = r;
       img[3*index + 1] = g;
@@ -53,9 +56,12 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
 	  g = img[3*index + 1];
 	  b = img[3*index + 2];
 
-	  r = constrainChar(r + floorf(errR * 3.0/16.0));
+	  /*r = constrainChar(r + floorf(errR * 3.0/16.0));
 	  g = constrainChar(g + floorf(errG * 3.0/16.0));
-	  b = constrainChar(b + floorf(errB * 3.0/16.0));
+	  b = constrainChar(b + floorf(errB * 3.0/16.0));*/
+	  r = constrainChar(r + ((errR * 3) / 16));
+	  g = constrainChar(g + ((errG * 3) / 16));
+	  b = constrainChar(b + ((errB * 3) / 16));
 
 	  img[3*index] = r;
 	  img[3*index + 1] = g;
@@ -68,9 +74,12 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
       g = img[3*index + 1];
       b = img[3*index + 2];
 
-      r = constrainChar(r + floorf(errR * 5.0/16.0));
+      /*r = constrainChar(r + floorf(errR * 5.0/16.0));
       g = constrainChar(g + floorf(errG * 5.0/16.0));
-      b = constrainChar(b + floorf(errB * 5.0/16.0));
+      b = constrainChar(b + floorf(errB * 5.0/16.0));*/
+      r = constrainChar(r + ((errR * 5) / 16));
+	  g = constrainChar(g + ((errG * 5) / 16));
+	  b = constrainChar(b + ((errB * 5) / 16));
 
       img[3*index] = r;
       img[3*index + 1] = g;
@@ -83,9 +92,12 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
       g = img[3*index + 1];
       b = img[3*index + 2];
 
-      r = constrainChar(r + floorf(errR * 1.0/16.0));
+      /*r = constrainChar(r + floorf(errR * 1.0/16.0));
       g = constrainChar(g + floorf(errG * 1.0/16.0));
-      b = constrainChar(b + floorf(errB * 1.0/16.0));
+      b = constrainChar(b + floorf(errB * 1.0/16.0));*/
+      r = constrainChar(r + (errR / 16));
+	  g = constrainChar(g + (errG / 16));
+	  b = constrainChar(b + (errB / 16));
 
       img[3*index] = r;
       img[3*index + 1] = g;
@@ -99,7 +111,7 @@ unsigned char* imgtoepd(unsigned char* img){
 	if(img == NULL) {
 		return NULL;
 	}
-	unsigned char* outbuf = (unsigned char*) calloc(EPD_HEIGHT * EPD_WIDTH / 2, sizeof(unsigned char));
+	unsigned char* outbuf = (unsigned char*) malloc(EPD_HEIGHT * EPD_WIDTH / 2 * sizeof(unsigned char));
 	if(outbuf == NULL) {
 		return NULL;
 	}

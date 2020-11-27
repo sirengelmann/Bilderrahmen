@@ -140,7 +140,6 @@ void display_random_bmp(filename_list_t* list){
 	BMP_Free(bitmap);
 	free(pixelbuf);
 	free(epdbuf);
-	//puts("returning now...");
 }
 
 void epaper(void *arg){
@@ -151,7 +150,7 @@ void epaper(void *arg){
 	display_random_bmp(filename_list);
 	shutdown_pictureframe();
 
-	for(;;){}  //never reached
+	for(;;){}
 }
 
 void app_main(void)

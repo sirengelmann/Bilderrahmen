@@ -5,7 +5,7 @@ unsigned char* BMPtoBUF(BMP* bmp){
 	unsigned long bufsize = BMP_GetHeight(bmp) * BMP_GetWidth(bmp) * 3;
 	unsigned char* buf = (unsigned char*) malloc(bufsize * sizeof(unsigned char));
 	if(buf == NULL) {
-		printf("ERROR while trying to allocate %lu bytes for the pixel buffer using calloc\n", bufsize);
+		printf("ERROR while trying to allocate %lu bytes for the pixel buffer using malloc\n", bufsize);
 		return NULL;
 	}
 	//printf("allocated %lu bytes for the pixel buffer\n", bufsize);

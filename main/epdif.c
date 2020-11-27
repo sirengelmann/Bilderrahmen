@@ -51,10 +51,7 @@ void DelayMs(unsigned int delaytime) {
 }
 
 void SpiTransfer(unsigned char data_to_send) {
-    /*digitalWrite(CS_PIN, LOW);
-    SPI.transfer(data);
-    digitalWrite(CS_PIN, HIGH);
-    */
+
 	uint32_t data[4];
 	uint32_t garbage[4];
 
@@ -91,7 +88,7 @@ int IfInit(void) {
 	dev_config.duty_cycle_pos = 0;
 	dev_config.cs_ena_posttrans = 0;
 	dev_config.cs_ena_pretrans = 0;
-	dev_config.clock_speed_hz = 2000000;
+	dev_config.clock_speed_hz = /*2000000;*/  SPI_MASTER_FREQ_13M;
 	dev_config.spics_io_num = -1;  //Chip Select is done in software
 	dev_config.flags = 0;
 	dev_config.queue_size = 1;
@@ -107,13 +104,6 @@ int IfInit(void) {
 	trans_desc.rxlength = 0;
 	trans_desc.length = 8;
 
-    /*pinMode(CS_PIN, OUTPUT);
-    pinMode(RST_PIN, OUTPUT);
-    pinMode(DC_PIN, OUTPUT);
-    pinMode(BUSY_PIN, INPUT); 
-    SPI.begin();
-    SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
-    */
     return 0;
 }
 
