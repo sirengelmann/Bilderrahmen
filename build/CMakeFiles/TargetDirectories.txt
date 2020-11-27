@@ -10,7 +10,7 @@ C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/app-flash.dir
 C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/encrypted-flash.dir
 C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/encrypted-app-flash.dir
 C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/_project_elf_src.dir
-C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/spi_master.elf.dir
+C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/picture_frame.elf.dir
 C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/size.dir
 C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/size-files.dir
 C:/Users/soere/esp/workspace/Bilderrahmen/build/CMakeFiles/size-components.dir
@@ -532,10 +532,3 @@ C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/main/CMakeFiles/__idf_ma
 C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/main/CMakeFiles/rebuild_cache.dir
 C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/main/CMakeFiles/list_install_components.dir
 C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/main/CMakeFiles/install/strip.dir
-C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/tjpgd/CMakeFiles/__idf_tjpgd.dir
-C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/tjpgd/CMakeFiles/install/local.dir
-C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/tjpgd/CMakeFiles/install.dir
-C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/tjpgd/CMakeFiles/edit_cache.dir
-C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/tjpgd/CMakeFiles/rebuild_cache.dir
-C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/tjpgd/CMakeFiles/list_install_components.dir
-C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/tjpgd/CMakeFiles/install/strip.dir

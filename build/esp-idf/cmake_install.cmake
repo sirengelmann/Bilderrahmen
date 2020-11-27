@@ -103,7 +103,6 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/unity/cmake_install.cmake")
   include("C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/wifi_provisioning/cmake_install.cmake")
   include("C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/main/cmake_install.cmake")
-  include("C:/Users/soere/esp/workspace/Bilderrahmen/build/esp-idf/tjpgd/cmake_install.cmake")
 
 endif()
 

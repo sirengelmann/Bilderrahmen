@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := spi_master
+PROJECT_NAME := picture_frame
 
 include $(IDF_PATH)/make/project.mk
 
