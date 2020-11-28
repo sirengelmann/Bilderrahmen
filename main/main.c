@@ -135,7 +135,8 @@ void display_random_bmp(filename_list_t* list){
 	printf("DEBUG -- conversion took %d ms. calling ePaper Display function\n", esp_log_timestamp() - temp_time_buf);
 	temp_time_buf = esp_log_timestamp();
 
-	EPD_5IN65F_Display((const unsigned char*) epdbuf);
+	//EPD_5IN65F_Display((const unsigned char*) epdbuf);
+	EPD_5IN65F_DisplayFast((const unsigned char*) epdbuf);
 	printf("DEBUG -- ePaper Draw Function returned, took %d ms\n", esp_log_timestamp() - temp_time_buf);
 	BMP_Free(bitmap);
 	free(pixelbuf);

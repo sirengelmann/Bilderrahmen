@@ -34,6 +34,7 @@
 #include "imagedata002.h"
 #include "imagedata003.h"
 #include <stdlib.h>
+#include <string.h>
 #include "epd5in65f.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -110,6 +111,11 @@ void SendCommand(unsigned char command) {
 void SendData(unsigned char data) {
     DigitalWrite(epd5in65f_dc_pin, HIGH);
     SpiTransfer(data);
+}
+
+void SendDataBlock(unsigned char* data, unsigned long len) {
+	DigitalWrite(epd5in65f_dc_pin, HIGH);
+	SpiTransferBlock(data, len);
 }
 
 void EPD_5IN65F_BusyHigh(void)// If BUSYN=0 then waiting
@@ -198,6 +204,38 @@ void EPD_5IN65F_Display(const UBYTE *image) {
     EPD_5IN65F_BusyLow();
 	DelayMs(200);
 }
+
+/******************************************************************************
+function :   Sends the image buffer in RAM to e-paper and displays
+			 IMPROVED FUNCTION written by Soren Engelmann
+******************************************************************************/
+
+void EPD_5IN65F_DisplayFast(const UBYTE *image) {
+	unsigned char* image_temp_ptr = (unsigned char*)image;
+	unsigned char* buf = malloc((epd5in65f_width / 12) * sizeof(unsigned char));
+	if(buf == NULL) return;
+    unsigned long i;
+    SendCommand(0x61);//Set Resolution setting
+    SendData(0x02);
+    SendData(0x58);
+    SendData(0x01);
+    SendData(0xC0);
+    SendCommand(0x10);
+    for(i=0; i<epd5in65f_height * 6; i++) {
+    	memcpy(buf, image_temp_ptr, (epd5in65f_width / 12));
+    	SendDataBlock(buf, (epd5in65f_width / 12));
+    	image_temp_ptr += (epd5in65f_width / 12);
+    }
+    SendCommand(0x04);//0x04
+    EPD_5IN65F_BusyHigh();
+    SendCommand(0x12);//0x12
+    EPD_5IN65F_BusyHigh();
+    SendCommand(0x02);  //0x02
+    EPD_5IN65F_BusyLow();
+    free(buf);
+	DelayMs(200);
+}
+
 
 
 /******************************************************************************

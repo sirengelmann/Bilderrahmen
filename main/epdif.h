@@ -57,6 +57,7 @@ void DigitalWrite(gpio_num_t pin, uint32_t value);
 int  DigitalRead(gpio_num_t pin);
 void DelayMs(unsigned int delaytime);
 void SpiTransfer(unsigned char data);
+void SpiTransferBlock(unsigned char* data_to_send, unsigned long len);
 void IfSuspend(void);
 
 #endif

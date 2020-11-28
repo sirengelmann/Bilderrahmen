@@ -57,8 +57,26 @@ void SpiTransfer(unsigned char data_to_send) {
 
 	data[0] = data_to_send;
 
+	trans_desc.length = 8;
 	trans_desc.tx_buffer = data;
 	trans_desc.rx_buffer = garbage;
+
+	gpio_set_level(CS_PIN, 0);
+
+	ESP_ERROR_CHECK(spi_device_transmit(handle, &trans_desc));
+
+	gpio_set_level(CS_PIN, 1);
+}
+
+void SpiTransferBlock(unsigned char* data_to_send, unsigned long len){
+	//uint32_t data[4];
+	//uint32_t garbage[4];
+
+	//data[0] = data_to_send;
+
+	trans_desc.length = 8 * len;
+	trans_desc.tx_buffer = data_to_send;
+	trans_desc.rx_buffer = NULL;
 
 	gpio_set_level(CS_PIN, 0);
 

@@ -69,11 +69,13 @@ void EPD_5IN65F_BusyHigh(void);
 void EPD_5IN65F_BusyLow(void);
 void Reset(void);
 void EPD_5IN65F_Display(const UBYTE *image);
+void EPD_5IN65F_DisplayFast(const UBYTE *image);
 void EPD_5IN65F_Display_part(const UBYTE *image, UWORD xstart, UWORD ystart,
 							 UWORD image_width, UWORD image_heigh);
 void EPD_5IN65F_Show7Block(void);
 void SendCommand(unsigned char command);
 void SendData(unsigned char data);
+void SendDataBlock(unsigned char* data, unsigned long len);
 void Suspend(void);
 void Clear(UBYTE color);
 
