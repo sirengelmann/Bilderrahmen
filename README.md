@@ -14,7 +14,6 @@
     - read WHO_AM_I test register from LIS3DH accelerometer in i2c mode
  
   ### Currently NOT working, but planned to be implemented:
-    - accelerate the e paper drawing functions (maybe with DMA?)
     - support 600 x 448 images too
     - using the accelerometer to find out orientation and only display fitting images
     - when the circuit boards arrive, implement proper battery management code
