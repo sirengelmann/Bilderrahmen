@@ -33,4 +33,7 @@
     - change the SD card interface to SDIO (when PCB is done)
     - support 600 x 448 images too
     - using the accelerometer to only display fitting images
-    - when the circuit boards arrive, implement proper battery management code
+    - implement battery management code with undervoltage shutdown and use charging IC as interrupt source for re-enabling
+    - use the interrupt signal of the accelerometer as a wakeup source for the ESP32
+    - modify the SD Card file structure, create two folders ("horizontal", "vertical") for pictures
+    - store the number of the currently displayed picture in flash, increment on every wakeup
