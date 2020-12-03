@@ -7,17 +7,17 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include "sdcard_stuff.h"
-//#include "i2c_stuff.h"
-
-#include "imagedata000.h"
-#include "imagedata001.h"
-#include "imagedata002.h"
-#include "imagedata003.h"
+#include "nvs_storage_stuff.h"
+//#include "imagedata000.h"
+//#include "imagedata001.h"
+//#include "imagedata002.h"
+//#include "imagedata003.h"
 #include "img_low_bat.h"
 #include "qdbmp.h"
 #include "floyd_steinberg.h"
 #include "pixel_converter.h"
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -154,21 +154,48 @@ void epaper(void *arg){
 	for(;;){}
 }
 
+void accelerometer(void *arg){
+
+	//puts("executing lis3dh_init now...");
+	lis3dh_init();
+	//puts("done with lis3dh_init");
+	vTaskDelay(10 / portTICK_PERIOD_MS);
+	float x_buf = 0;
+	float y_buf = 0;
+	float z_buf = 0;
+	lis3dh_readAccelerationFloat(&x_buf, &y_buf, &z_buf);
+	float g_mag = sqrtf((x_buf) * (x_buf) + (y_buf) * (y_buf) + (z_buf) * (z_buf));
+	printf("accelerometer readings %f\nx: %f\ny: %f\nz: %f\n", g_mag, x_buf, y_buf, z_buf);
+
+	for(;;){
+		//lis3dh_readAccelerationFloat(&x_buf, &y_buf, &z_buf);
+		//float g_mag = sqrtf((x_buf) * (x_buf) + (y_buf) * (y_buf) + (z_buf) * (z_buf));
+		//printf("accelerometer readings %f\nx: %f\ny: %f\nz: %f\n", g_mag, x_buf, y_buf, z_buf);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+	}
+}
+
+void test(void *arg){
+	if(0 != Init()) printf("EPAPER init failed\n");
+	for(;;){
+		EPD_5IN65F_Show7Block();
+		vTaskDelay(10000 / portTICK_PERIOD_MS);
+
+		vTaskDelay(10000 / portTICK_PERIOD_MS);
+	}
+}
+
 void app_main(void)
 {
 	esp_task_wdt_init(20, false);
 
 	sdcard_init();
 
-	//puts("executing lis3dh_init now...");
-	lis3dh_init();
-	//puts("done with lis3dh_init");
-
-	//puts("reading who_am_i register now...");
-	lis3dh_test();
-	//puts("done reading register");
+	//nvs_flash_init_func();
 
 	xTaskCreate(epaper, "ePaper", 8192, NULL, 2, NULL);
+	xTaskCreate(accelerometer, "accelerometer", 8192, NULL, 2, NULL);
+	//xTaskCreate(test, "test", 8192, NULL, 2, NULL);
 	//xTaskCreate(bitmap, "bitmap", 8192, NULL, 2, NULL);
 
 	while(1){

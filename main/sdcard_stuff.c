@@ -1,7 +1,7 @@
 #include "sdcard_stuff.h"
 
 #include "driver/spi_common.h"
-
+#include "qdbmp.h"
 
 static const char *SD_TAG = "SD SPI";
 

@@ -1,5 +1,12 @@
 #ifndef __LIS3DH_DRV_H__
 #define __LIS3DH_DRV_H__
+
+//---------------------------------
+//		ERROR VALUES DEFINES
+//---------------------------------
+#define LIS3DH_OK 0x00
+#define LIS3DH_NO_NEW_DATA 0x01
+
 //---------------------------------
 //		REGISTER DEFINES
 //---------------------------------

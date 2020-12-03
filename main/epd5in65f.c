@@ -212,7 +212,7 @@ function :   Sends the image buffer in RAM to e-paper and displays
 
 void EPD_5IN65F_DisplayFast(const UBYTE *image) {
 	unsigned char* image_temp_ptr = (unsigned char*)image;
-	unsigned char* buf = malloc((epd5in65f_width / 12) * sizeof(unsigned char));
+	unsigned char* buf = malloc(64 * sizeof(unsigned char));
 	if(buf == NULL) return;
     unsigned long i;
     SendCommand(0x61);//Set Resolution setting
@@ -221,10 +221,10 @@ void EPD_5IN65F_DisplayFast(const UBYTE *image) {
     SendData(0x01);
     SendData(0xC0);
     SendCommand(0x10);
-    for(i=0; i<epd5in65f_height * 6; i++) {
-    	memcpy(buf, image_temp_ptr, (epd5in65f_width / 12));
-    	SendDataBlock(buf, (epd5in65f_width / 12));
-    	image_temp_ptr += (epd5in65f_width / 12);
+    for(i=0; i<epd5in65f_height * epd5in65f_width / 128; i++) {
+    	memcpy(buf, image_temp_ptr, 64);
+    	SendDataBlock(buf, 64);
+    	image_temp_ptr += 64;
     }
     SendCommand(0x04);//0x04
     EPD_5IN65F_BusyHigh();

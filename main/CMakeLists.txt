@@ -1,8 +1,4 @@
-set(srcs "imagedata000.c"
-    "imagedata001.c"
-    "imagedata002.c"
-    "imagedata003.c"
-    "img_low_bat.c"
+set(srcs "img_low_bat.c"
     "epdif.c"
     "epd5in65f.c"
     "qdbmp.c"
@@ -11,6 +7,7 @@ set(srcs "imagedata000.c"
     "pixel_converter.c"
     "lis3dh.c"
     "lis3dh_drv.c"
+    "nvs_storage_stuff.c"
     "main.c"
     )
 
