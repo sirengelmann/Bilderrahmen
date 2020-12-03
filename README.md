@@ -11,7 +11,7 @@
  
   ### used hardware (so far):
     - "5.65inch e-Paper Module" from waveshare
-    - "ESP32 WROVER-B 4MB Module" from Espressif Inc
+    - "ESP32 WROVER-B 4MB" Module from Espressif Systems
     - "LIS3DH 3-axis MEMS accelerometer" by STMicroelectronics
     - 5000 mAh LiPo battery from EREMIT.de
     
@@ -27,7 +27,7 @@
     - read BITMAP images from SDCard (SPI Mode), 448 x 600, 24bpp, minimal header
     - apply floyd steinberg dithering algorithm to image, mapping to 8 different colors
     - convert image data to E-Ink specific encoding and flush to display
-    - read acceleration data from LIS3DH accelerometer in i2c mode, interrupt on position
+    - read acceleration data from LIS3DH accelerometer in i2c mode, interrupt on crossing position threshold
  
   ### Currently NOT working, but planned to be implemented:
     - change the SD card interface to SDIO (when PCB is done)
