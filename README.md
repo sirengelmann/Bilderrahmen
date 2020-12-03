@@ -30,6 +30,7 @@
     - read acceleration data from LIS3DH accelerometer in i2c mode, interrupt on position
  
   ### Currently NOT working, but planned to be implemented:
+    - change the SD card interface to SDIO (when PCB is done)
     - support 600 x 448 images too
     - using the accelerometer to only display fitting images
     - when the circuit boards arrive, implement proper battery management code
