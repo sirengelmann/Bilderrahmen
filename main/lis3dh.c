@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <math.h>
 
 void lis3dh_init(void){
 	lis3dh_drv_init();  //initializes I2C interface
@@ -67,4 +68,35 @@ unsigned char* chrtostr(unsigned char data){
 		bf[i + 2] = (data & (1<<(7-i))) ? '1' : '0';
 	}
 	return bf;
+}
+
+unsigned int lis3dh_readOrientation(void){
+	float vector_horizontal[3] = {1.0, 0.0, 0.0};
+	float vector_vertical[3] = {0.0, 1.0, 0.0};
+	float vector_flat[3] = {0.0, 0.0, 1.0};
+	float dot_product_limit = 0.8; //36.87 degrees tolerance
+	float x_buf = 0;
+	float y_buf = 0;
+	float z_buf = 0;
+	lis3dh_readAccelerationFloat(&x_buf, &y_buf, &z_buf);
+	float g_mag = sqrtf((x_buf) * (x_buf) + (y_buf) * (y_buf) + (z_buf) * (z_buf));
+	float vector_orientation[3] = {0.0,0.0,0.0};
+	vector_orientation[0] = x_buf / g_mag;
+	vector_orientation[1] = y_buf / g_mag;
+	vector_orientation[2] = z_buf / g_mag;
+	if(fabsf(dot_product_3d(vector_orientation, vector_horizontal)) > dot_product_limit)
+		return LIS3DH_ORIENTATION_HORIZONTAL;
+	if(fabsf(dot_product_3d(vector_orientation, vector_vertical)) > dot_product_limit)
+		return LIS3DH_ORIENTATION_VERTICAL;
+	if(fabsf(dot_product_3d(vector_orientation, vector_flat)) > dot_product_limit)
+		return LIS3DH_ORIENTATION_FLAT;
+	return LIS3DH_ORIENTATION_INCONCLUSIVE;
+}
+
+float dot_product_3d(float v_a[3], float v_b[3]){
+	float ret_val = 0.0;
+	ret_val += v_a[0] * v_b[0];
+	ret_val += v_a[1] * v_b[1];
+	ret_val += v_a[2] * v_b[2];
+	return ret_val;
 }

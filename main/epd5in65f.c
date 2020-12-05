@@ -28,11 +28,6 @@
 # THE SOFTWARE.
 #
 ******************************************************************************/
-
-#include "imagedata000.h"
-#include "imagedata001.h"
-#include "imagedata002.h"
-#include "imagedata003.h"
 #include <stdlib.h>
 #include <string.h>
 #include "epd5in65f.h"

@@ -1,9 +1,5 @@
 #include "sdcard_stuff.h"
 #include "nvs_storage_stuff.h"
-//#include "imagedata000.h"
-//#include "imagedata001.h"
-//#include "imagedata002.h"
-//#include "imagedata003.h"
 #include "img_low_bat.h"
 #include "qdbmp.h"
 #include "floyd_steinberg.h"
@@ -49,6 +45,41 @@ void shutdown_pictureframe(void){
 	vTaskDelay(1000 / portTICK_PERIOD_MS);
 	esp_deep_sleep_start();
 }
+
+//integer values
+#define NVS_FLASH_KEY_BATTERY_EMPTY_FLAG "BAT_EMPTY"  //0: false, 1: true, default: 0
+#define NVS_FLASH_KEY_HORIZONTAL_IMAGE_COUNTER "HORI_IMG"  //stores last displayed image in horizontal mode, default: 0
+#define NVS_FLASH_KEY_VERTICAL_IMAGE_COUNTER "VERT_IMG"  //stores last displayed image in vertical mode, default: 0
+#define NVS_FLASH_KEY_LAST_ORIENTATION "LAST_ORIN"  //0: horizontal, 1: vertical, default: 0
+
+void manage_wakeup_reason(){
+	esp_sleep_wakeup_cause_t cause = esp_sleep_get_wakeup_cause();
+	switch(cause){
+		case ESP_SLEEP_WAKEUP_UNDEFINED:{
+			puts("first boot");
+			nvs_flash_stuff_writeInt((unsigned char*)NVS_FLASH_KEY_BATTERY_EMPTY_FLAG, 0);
+			nvs_flash_stuff_writeInt((unsigned char*)NVS_FLASH_KEY_HORIZONTAL_IMAGE_COUNTER, 0);
+			nvs_flash_stuff_writeInt((unsigned char*)NVS_FLASH_KEY_VERTICAL_IMAGE_COUNTER, 0);
+			nvs_flash_stuff_writeInt((unsigned char*)NVS_FLASH_KEY_LAST_ORIENTATION, 0);
+			break;
+		}
+		case ESP_SLEEP_WAKEUP_TIMER:{
+			puts("timer wakeup");
+			break;
+		}
+		case ESP_SLEEP_WAKEUP_EXT1:{
+			puts("interrupt wakeup");
+			break;
+		}
+		default:{
+			puts("ERROR: unexpected wakeup cause");
+			printf("wakeup value: %d\n", (unsigned int)cause);
+			break;
+		}
+	};
+}
+
+
 
 unsigned char* epdbuf;
 
@@ -159,10 +190,21 @@ void accelerometer(void *arg){
 	float g_mag = sqrtf((x_buf) * (x_buf) + (y_buf) * (y_buf) + (z_buf) * (z_buf));
 	printf("accelerometer readings %f\nx: %f\ny: %f\nz: %f\n", g_mag, x_buf, y_buf, z_buf);
 
+	switch(lis3dh_readOrientation()){
+		case LIS3DH_ORIENTATION_HORIZONTAL:{
+			puts("orientation: horizontal");
+		}break;
+		case LIS3DH_ORIENTATION_VERTICAL:{
+			puts("orientation: vertical");
+		}break;
+		case LIS3DH_ORIENTATION_FLAT:{
+			puts("orientation: flat");
+		}break;
+		case LIS3DH_ORIENTATION_INCONCLUSIVE:{
+			puts("orientation unknown");
+		}
+	};
 	for(;;){
-		//lis3dh_readAccelerationFloat(&x_buf, &y_buf, &z_buf);
-		//float g_mag = sqrtf((x_buf) * (x_buf) + (y_buf) * (y_buf) + (z_buf) * (z_buf));
-		//printf("accelerometer readings %f\nx: %f\ny: %f\nz: %f\n", g_mag, x_buf, y_buf, z_buf);
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
@@ -172,18 +214,27 @@ void test(void *arg){
 	for(;;){
 		EPD_5IN65F_Show7Block();
 		vTaskDelay(10000 / portTICK_PERIOD_MS);
-
-		vTaskDelay(10000 / portTICK_PERIOD_MS);
 	}
 }
 
 void app_main(void)
 {
+
 	esp_task_wdt_init(20, false);
 
 	sdcard_init();
 
-	//nvs_flash_init_func();
+	nvs_flash_stuff_init_func();
+
+	manage_wakeup_reason();
+
+	nvs_flash_stuff_writeInt((unsigned char*)"testKey", -5);
+
+	printf("read %d from NVS flash storage\n", nvs_flash_stuff_readInt((unsigned char*)"testKey"));
+
+	nvs_flash_stuff_deleteValueByKey((unsigned char*)"testKey");
+
+	printf("read %d from NVS flash storage\n", nvs_flash_stuff_readInt((unsigned char*)"testKey"));
 
 	xTaskCreate(epaper, "ePaper", 8192, NULL, 2, NULL);
 	xTaskCreate(accelerometer, "accelerometer", 8192, NULL, 2, NULL);
@@ -194,7 +245,3 @@ void app_main(void)
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
-
-
-
-

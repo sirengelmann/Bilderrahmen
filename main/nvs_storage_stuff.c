@@ -7,7 +7,7 @@
 #include "nvs.h"
 
 
-void nvs_flash_init_func(void){
+void nvs_flash_stuff_init_func(void){
 	// Initialize NVS
 	esp_err_t err = nvs_flash_init();
 	if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -17,7 +17,7 @@ void nvs_flash_init_func(void){
 	ESP_ERROR_CHECK( err );
 }
 
-void nvs_flash_writeInt(unsigned char* key, int number){
+void nvs_flash_stuff_writeInt(unsigned char* key, int number){
 	nvs_handle_t my_handle;
 	esp_err_t err = nvs_open("storage", NVS_READWRITE, &my_handle);
 	if (err != ESP_OK) {
@@ -35,7 +35,7 @@ void nvs_flash_writeInt(unsigned char* key, int number){
 	}
 }
 
-void nvs_flash_writeString(unsigned char* key, unsigned char* str){
+void nvs_flash_stuff_writeString(unsigned char* key, unsigned char* str){
 	nvs_handle_t my_handle;
 	esp_err_t err = nvs_open("storage", NVS_READWRITE, &my_handle);
 	if (err != ESP_OK) {
@@ -53,7 +53,7 @@ void nvs_flash_writeString(unsigned char* key, unsigned char* str){
 	}
 }
 
-int nvs_flash_readInt(unsigned char* key){
+int nvs_flash_stuff_readInt(unsigned char* key){
 	nvs_handle_t my_handle;
 	int val = 0;
 	esp_err_t err = nvs_open("storage", NVS_READWRITE, &my_handle);
@@ -62,8 +62,6 @@ int nvs_flash_readInt(unsigned char* key){
 	} else {
 
 		// Read
-		printf("Reading restart counter from NVS ... ");
-
 		err = nvs_get_i32(my_handle, (const char*)key, &val);
 		switch (err) {
 			case ESP_OK:
@@ -82,7 +80,7 @@ int nvs_flash_readInt(unsigned char* key){
 	return val;
 }
 
-unsigned char* nvs_flash_readString(unsigned char* key, unsigned int length){
+unsigned char* nvs_flash_stuff_readString(unsigned char* key, unsigned int length){
 	nvs_handle_t my_handle;
 	unsigned char* buf = NULL;
 	esp_err_t err = nvs_open("storage", NVS_READWRITE, &my_handle);
@@ -91,7 +89,6 @@ unsigned char* nvs_flash_readString(unsigned char* key, unsigned int length){
 	} else {
 
 		// Read
-		printf("Reading restart counter from NVS ... ");
 		buf = (unsigned char*) malloc(length*sizeof(unsigned char));
 		err = nvs_get_str(my_handle, (const char*)key, (char*)buf, (size_t*)&length);
 		switch (err) {
@@ -110,3 +107,33 @@ unsigned char* nvs_flash_readString(unsigned char* key, unsigned int length){
 	}
 	return buf;
 }
+
+void nvs_flash_stuff_deleteValueByKey(unsigned char* key){
+	nvs_handle_t my_handle;
+	esp_err_t err = nvs_open("storage", NVS_READWRITE, &my_handle);
+	if (err != ESP_OK) {
+		printf("Error (%s) opening NVS handle!\n", esp_err_to_name(err));
+	} else {
+
+		err = nvs_erase_key(my_handle, (const char*)key);
+		switch (err) {
+			case ESP_OK:
+				puts("Value found");
+				break;
+			case ESP_ERR_NVS_NOT_FOUND:
+				printf("key \"%s\" did not lead to a value!\n", key);
+				break;
+			default :
+				printf("Error (%s) !\n", esp_err_to_name(err));
+		}
+
+		err = nvs_commit(my_handle);
+		printf((err != ESP_OK) ? "Failed to commit!\n" : "Done committing\n");
+
+		// Close
+		nvs_close(my_handle);
+	}
+	return;
+}
+
+
