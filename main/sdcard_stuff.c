@@ -92,11 +92,16 @@ filename_list_t* list_files(char* path, char* endswith){
 
 	struct dirent* dp;
 
+	puts("opendir");
+
 	DIR* dir = opendir(path);
 
-	if (!dir)
-		return NULL;
+	//puts("done opendir");
 
+	if (dir == NULL){
+		puts("dir = NULL");
+		return NULL;
+	}
 	while ((dp = readdir(dir)) != NULL)
 	{
 		//printf("%s\n", dp->d_name);
@@ -111,8 +116,13 @@ filename_list_t* list_files(char* path, char* endswith){
 			if(!filecount){		/*first entry in linked list*/
 				head = (filename_list_t*) malloc(sizeof(filename_list_t));
 				head->next = NULL;
-				strcpy(head->filename, dp->d_name);
-				//printf("%s\n", dp->d_name);
+				char buf[256];
+				buf[0] = '\0';
+				strcat(buf, path);
+				strcat(buf, "/");
+				strcat(buf, dp->d_name);
+				strcpy(head->filename, buf);
+				printf("sdcard_stuff %s\n", head->filename);
 				filecount++;
 			} else {			/*not first entry in linked list*/
 				filename_list_t* temp = head;
@@ -120,8 +130,13 @@ filename_list_t* list_files(char* path, char* endswith){
 				temp->next = (filename_list_t*) malloc(sizeof(filename_list_t));
 				temp = temp->next;
 				temp->next = NULL;
-				strcpy(temp->filename, dp->d_name);
-				//printf("%s\n", dp->d_name);
+				char buf[256];
+				buf[0] = '\0';
+				strcat(buf, path);
+				strcat(buf, "/");
+				strcat(buf, dp->d_name);
+				strcpy(temp->filename, buf);
+				printf("sdcard_stuff %s\n", temp->filename);
 				filecount++;
 			}
 		}

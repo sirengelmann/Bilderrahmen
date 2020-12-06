@@ -13,6 +13,8 @@
 #include "driver/gpio.h"
 #include "sdmmc_cmd.h"
 
+#ifndef __SDCARD_STUFF_H__
+#define __SDCARD_STUFF_H__
 
 #define PIN_NUM_MISO 2
 #define PIN_NUM_MOSI 15
@@ -20,7 +22,6 @@
 #define PIN_NUM_CS   13
 
 #define PIN_NUM_SDPOWER 5
-
 
 
 void sdcard_init();
@@ -38,4 +39,6 @@ typedef struct node {
 filename_list_t* list_files(char* path, char* endswith);
 
 bool has_ending(char* ending, char* str);
+
+#endif
 

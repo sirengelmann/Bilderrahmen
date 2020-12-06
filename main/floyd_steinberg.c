@@ -12,20 +12,20 @@ const unsigned char epd_palette[8][3] = {
   {255, 126, 221}   /*MAGENTA*/
 };
 
-void dither(unsigned char* img /*3 bytes per pixel*/){
-for (int y = 0; y < EPD_HEIGHT -1; y++) {
-    for (int x = 1; x < EPD_WIDTH-1; x++) {
-      unsigned char oldR = img[3*buffer_index(x, y)];
-      unsigned char oldG = img[3*buffer_index(x, y) + 1];
-      unsigned char oldB = img[3*buffer_index(x, y) + 2];
+void dither(unsigned char* img /*3 bytes per pixel*/, unsigned int height, unsigned int width){
+for (int y = 0; y < height -1; y++) {
+    for (int x = 1; x < width-1; x++) {
+      unsigned char oldR = img[3*buffer_index(x, y, width)];
+      unsigned char oldG = img[3*buffer_index(x, y, width) + 1];
+      unsigned char oldB = img[3*buffer_index(x, y, width) + 2];
 
       const unsigned char* returnC = findClosest(oldR, oldG, oldB);
       unsigned char newR = returnC[0];
       unsigned char newG = returnC[1];
       unsigned char newB = returnC[2];
-      img[3*buffer_index(x, y)] = newR;
-      img[3*buffer_index(x, y) + 1] = newG;
-      img[3*buffer_index(x, y) + 2] = newB;
+      img[3*buffer_index(x, y, width)] = newR;
+      img[3*buffer_index(x, y, width) + 1] = newG;
+      img[3*buffer_index(x, y, width) + 2] = newB;
 
       signed int errR = oldR - newR;
       signed int errG = oldG - newG;
@@ -33,7 +33,7 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
 
 
       //x+1 y
-      unsigned int index = buffer_index(x+1, y  );
+      unsigned int index = buffer_index(x+1, y, width);
       unsigned char r = img[3*index];
 	  unsigned char g = img[3*index + 1];
 	  unsigned char b = img[3*index + 2];
@@ -51,7 +51,7 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
 
 
       //x-1 y+1
-      index = buffer_index(x-1, y+1  );
+      index = buffer_index(x-1, y+1, width);
       r = img[3*index];
 	  g = img[3*index + 1];
 	  b = img[3*index + 2];
@@ -69,7 +69,7 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
 
 
 	  //x y+1
-      index = buffer_index(x, y+1);
+      index = buffer_index(x, y+1, width);
       r = img[3*index];
       g = img[3*index + 1];
       b = img[3*index + 2];
@@ -87,7 +87,7 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
 
 
       //x+1 y+1
-      index = buffer_index(x+1, y+1);
+      index = buffer_index(x+1, y+1, width);
       r = img[3*index];
       g = img[3*index + 1];
       b = img[3*index + 2];
@@ -107,27 +107,27 @@ for (int y = 0; y < EPD_HEIGHT -1; y++) {
 }
 
 
-unsigned char* imgtoepd(unsigned char* img){
+unsigned char* imgtoepd(unsigned char* img, unsigned int height, unsigned int width){
 	if(img == NULL) {
 		return NULL;
 	}
-	unsigned char* outbuf = (unsigned char*) malloc(EPD_HEIGHT * EPD_WIDTH / 2 * sizeof(unsigned char));
+	unsigned char* outbuf = (unsigned char*) malloc(height * width / 2 * sizeof(unsigned char));
 	if(outbuf == NULL) {
 		return NULL;
 	}
-	for (int y = 0; y < EPD_HEIGHT; y++) {
-	    for (int x = 0; x < EPD_WIDTH / 2; x++) {
-	      unsigned char rMSB = img[3*buffer_index(2*x, y)];
-	      unsigned char gMSB = img[3*buffer_index(2*x, y) + 1];
-	      unsigned char bMSB = img[3*buffer_index(2*x, y) + 2];
-	      unsigned char rLSB = img[3*buffer_index(1 + 2*x, y)];
-		  unsigned char gLSB = img[3*buffer_index(1 + 2*x, y) + 1];
-		  unsigned char bLSB = img[3*buffer_index(1 + 2*x, y) + 2];
+	for (int y = 0; y < height; y++) {
+	    for (int x = 0; x < width / 2; x++) {
+	      unsigned char rMSB = img[3*buffer_index(2*x, y, width)];
+	      unsigned char gMSB = img[3*buffer_index(2*x, y, width) + 1];
+	      unsigned char bMSB = img[3*buffer_index(2*x, y, width) + 2];
+	      unsigned char rLSB = img[3*buffer_index(1 + 2*x, y, width)];
+		  unsigned char gLSB = img[3*buffer_index(1 + 2*x, y, width) + 1];
+		  unsigned char bLSB = img[3*buffer_index(1 + 2*x, y, width) + 2];
 		  //do color matching
 		  unsigned char colMSB = findClosestEPD(rMSB, gMSB, bMSB);
 		  unsigned char colLSB = findClosestEPD(rLSB, gLSB, bLSB);
 
-		  outbuf[x + y * (EPD_WIDTH / 2)] = (colMSB<<4) | colLSB;
+		  outbuf[x + y * (width / 2)] = (colMSB<<4) | colLSB;
 	    }
 	}
 	return outbuf;
@@ -135,8 +135,8 @@ unsigned char* imgtoepd(unsigned char* img){
 }
 
 
-unsigned int buffer_index(unsigned int x, unsigned int y) {
-  return x + y * EPD_WIDTH;
+unsigned int buffer_index(unsigned int x, unsigned int y, unsigned int width) {
+  return x + y * width;
 }
 
 

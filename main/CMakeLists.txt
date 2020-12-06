@@ -8,6 +8,7 @@ set(srcs "img_low_bat.c"
     "lis3dh.c"
     "lis3dh_drv.c"
     "nvs_storage_stuff.c"
+    "pictureframe_management_functions.c"
     "main.c"
     )
 
