@@ -6,7 +6,7 @@
 static const char *SD_TAG = "SD SPI";
 
 void sdcard_init(){
-	gpio_set_direction((gpio_num_t) PIN_NUM_SDPOWER, GPIO_MODE_OUTPUT);
+	gpio_set_direction((gpio_num_t) PIN_NUM_SDPOWER, GPIO_MODE_OUTPUT_OD);
 	gpio_set_level((gpio_num_t) PIN_NUM_SDPOWER, 0);  //enable sd card power
 
 	//ESP_LOGI(SD_TAG, "Using SPI peripheral");
@@ -42,7 +42,7 @@ void sdcard_init(){
 				"If you want the card to be formatted, set format_if_mount_failed = true.");
 		} else {
 			ESP_LOGE(SD_TAG, "Failed to initialize the card (%s). "
-				"Make sure SD card lines have pull-up resistors in place.", esp_err_to_name(ret));
+				"SD Card not detected or faulty.", esp_err_to_name(ret));
 		}
 		return;
 	}
@@ -122,7 +122,7 @@ filename_list_t* list_files(char* path, char* endswith){
 				strcat(buf, "/");
 				strcat(buf, dp->d_name);
 				strcpy(head->filename, buf);
-				printf("sdcard_stuff %s\n", head->filename);
+				//printf("sdcard_stuff %s\n", head->filename);
 				filecount++;
 			} else {			/*not first entry in linked list*/
 				filename_list_t* temp = head;
@@ -136,7 +136,7 @@ filename_list_t* list_files(char* path, char* endswith){
 				strcat(buf, "/");
 				strcat(buf, dp->d_name);
 				strcpy(temp->filename, buf);
-				printf("sdcard_stuff %s\n", temp->filename);
+				//printf("sdcard_stuff %s\n", temp->filename);
 				filecount++;
 			}
 		}

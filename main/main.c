@@ -6,7 +6,9 @@
 #include "pixel_converter.h"
 #include "epd5in65f.h"
 #include "lis3dh.h"
+#include "lis3dh_drv.h"
 #include "pictureframe_management_functions.h"
+#include "batt_man.h"
 
 #include <stdio.h>
 #include <math.h>
@@ -37,8 +39,16 @@ void app_main(void)
 	nvs_flash_stuff_init_func();
 	lis3dh_init();
 	if(0 != Init()) printf("EPAPER init failed\n");
+	read_battery_setup();
 
 	esp_sleep_wakeup_cause_t cause = esp_sleep_get_wakeup_cause();
+
+	if(read_battery_voltage() < 3.2){
+		EPD_5IN65F_DisplayFast(img_low_bat);
+		pictureframe_deadlock_init();  //never returns
+	}
+
+
 	switch(cause){
 		case ESP_SLEEP_WAKEUP_UNDEFINED:{
 			puts("first boot");
@@ -86,7 +96,8 @@ void app_main(void)
 			printf("wakeup value: %d\n", (unsigned int)cause);
 		} break;
 	};
-
+	//lis3dh_drv_ScanTest();
+	vTaskDelay(1000 / portTICK_PERIOD_MS);
 	shutdown_pictureframe();
 
 	while(1){
@@ -94,3 +105,5 @@ void app_main(void)
 		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
+
+

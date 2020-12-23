@@ -275,5 +275,6 @@ unsigned char lis3dh_drv_read(unsigned char addr);
 
 void lis3dh_drv_write(unsigned char addr, unsigned char data);
 
+void lis3dh_drv_ScanTest(void);
 
 #endif

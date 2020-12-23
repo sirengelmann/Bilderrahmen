@@ -21,7 +21,7 @@
 #define PIN_NUM_CLK  14
 #define PIN_NUM_CS   13
 
-#define PIN_NUM_SDPOWER 5
+#define PIN_NUM_SDPOWER 22
 
 
 void sdcard_init();

@@ -29,7 +29,7 @@
 #include "sdmmc_cmd.h"
 
 
-#define CONFIG_SLEEP_SECONDS 10
+#define CONFIG_SLEEP_SECONDS 3600  // 60 minutes
 
 //integer values
 #define NVS_FLASH_KEY_BATTERY_EMPTY_FLAG "BAT_EMPTY"  //0: false, 1: true, default: 0
@@ -38,6 +38,8 @@
 #define NVS_FLASH_KEY_LAST_ORIENTATION "LAST_ORIN"  //states defined in lis3dh.h, default: LIS3DH_ORIENTATION_INCONCLUSIVE
 
 void pictureframe_deepsleep_init();
+
+void pictureframe_deadlock_init();
 
 void shutdown_pictureframe(void);
 

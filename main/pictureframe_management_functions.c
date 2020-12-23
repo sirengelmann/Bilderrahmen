@@ -4,9 +4,21 @@
 
 
 void pictureframe_deepsleep_init(){
-	esp_sleep_enable_timer_wakeup(1000000 * CONFIG_SLEEP_SECONDS);
-	esp_sleep_enable_ext1_wakeup((((uint64_t)1)<<35), ESP_EXT1_WAKEUP_ANY_HIGH);
+	//puts(gpio_get_level(36) ? "GPIO39 is HIGH" : "GPIO39 is LOW");
+	esp_sleep_enable_timer_wakeup((uint64_t)1000000 * CONFIG_SLEEP_SECONDS);
+	esp_sleep_enable_ext1_wakeup((((uint64_t)1)<<39), ESP_EXT1_WAKEUP_ANY_HIGH);  //SENSOR VN -> IO39
 }
+
+void pictureframe_deadlock_init(){
+	//puts(gpio_get_level(36) ? "GPIO36 is HIGH" : "GPIO36 is LOW");
+	esp_sleep_enable_ext1_wakeup((((uint64_t)1)<<36), ESP_EXT1_WAKEUP_ALL_LOW);  //SENSOR VN -> IO39
+	Suspend();
+	sdcard_deinit();
+	puts("Battery low... going to deadlock in 1 second...");
+	vTaskDelay(1000 / portTICK_PERIOD_MS);
+	esp_deep_sleep_start();
+}
+
 
 void shutdown_pictureframe(void){
 	Suspend();
@@ -146,7 +158,7 @@ void display_all_bmps(filename_list_t* list){
 }
 
 void display_random_bmp(filename_list_t* list){
-	puts("DEBUG -- Starting to decode Image");
+	//puts("DEBUG -- Starting to decode Image");
 	uint32_t temp_time_buf = esp_log_timestamp();
 	filename_list_t* copy = list;
 	unsigned int num_files = 0;
@@ -204,7 +216,7 @@ void epaper(void *arg){
 	if(0 != Init()) printf("EPAPER init failed\n");
 
 	vTaskDelay(100 / portTICK_PERIOD_MS);
-	puts("going to call list_files()");
+	//puts("going to call list_files()");
 	filename_list_t* filename_list = list_files("/sdcard/vertical", "bmp");
 	if(filename_list == NULL) goto epaper_end;
 	puts(filename_list->filename);
@@ -228,20 +240,20 @@ void accelerometer(void *arg){
 	float z_buf = 0;
 	lis3dh_readAccelerationFloat(&x_buf, &y_buf, &z_buf);
 	float g_mag = sqrtf((x_buf) * (x_buf) + (y_buf) * (y_buf) + (z_buf) * (z_buf));
-	printf("accelerometer readings %f\nx: %f\ny: %f\nz: %f\n", g_mag, x_buf, y_buf, z_buf);
+	//printf("accelerometer readings %f\nx: %f\ny: %f\nz: %f\n", g_mag, x_buf, y_buf, z_buf);
 
 	switch(lis3dh_readOrientation()){
 		case LIS3DH_ORIENTATION_HORIZONTAL:{
-			puts("orientation: horizontal");
+			//puts("orientation: horizontal");
 		}break;
 		case LIS3DH_ORIENTATION_VERTICAL:{
-			puts("orientation: vertical");
+			//puts("orientation: vertical");
 		}break;
 		case LIS3DH_ORIENTATION_FLAT:{
-			puts("orientation: flat");
+			//puts("orientation: flat");
 		}break;
 		case LIS3DH_ORIENTATION_INCONCLUSIVE:{
-			puts("orientation unknown");
+			//puts("orientation unknown");
 		}
 	};
 	for(;;){

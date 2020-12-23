@@ -15,9 +15,9 @@ void lis3dh_init(void){
 	lis3dh_drv_write(CTRL_REG5, 0x00);
 	lis3dh_drv_write(CTRL_REG6, 0x00);  //???currently, no interrupt is used
 	lis3dh_drv_write(REFERENCE, 0x00);
-	lis3dh_drv_write(INT1_THS, 0x32);  //interrupt threshold is 0x32 or dec 50 (50 * 0.016g = 0.8g)
+	lis3dh_drv_write(INT1_THS, 0x2F);  //interrupt threshold is 0x2F or dec 47 (47 * 0.016g = 0.752g)
 	lis3dh_drv_write(INT1_DURATION, 0x00);
-	lis3dh_drv_write(INT1_CFG, AOI | _6D | XLIE | YLIE);  //interrupt on direction x low and y low
+	lis3dh_drv_write(INT1_CFG, AOI | _6D | XHIE | XLIE | YHIE | YLIE);  //interrupt on direction x and y
 	lis3dh_drv_write(CTRL_REG5, BOOT);
 }
 

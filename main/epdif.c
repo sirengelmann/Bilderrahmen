@@ -106,7 +106,7 @@ int IfInit(void) {
 	dev_config.duty_cycle_pos = 0;
 	dev_config.cs_ena_posttrans = 0;
 	dev_config.cs_ena_pretrans = 0;
-	dev_config.clock_speed_hz = /*2000000;*/  SPI_MASTER_FREQ_13M;
+	dev_config.clock_speed_hz = SPI_MASTER_FREQ_13M;
 	dev_config.spics_io_num = -1;  //Chip Select is done in software
 	dev_config.flags = 0;
 	dev_config.queue_size = 1;

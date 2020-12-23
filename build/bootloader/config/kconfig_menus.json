@@ -313,10 +313,7 @@
                 "help": "This value is ignored unless flash mode is set to QIO or QOUT *and* the SPI flash pins have been\noverriden by setting the eFuses SPI_PAD_CONFIG_xxx.\n\nWhen this is the case, the eFuse config only defines 3 of the 4 Quad I/O data pins. The WP pin (aka ESP32\npin \"SD_DATA_3\" or SPI flash pin \"IO2\") is not specified in eFuse. That pin number is compiled into the\nbootloader instead.\n\nThe default value (GPIO 7) is correct for WP pin on ESP32-D2WD integrated flash.",
                 "id": "BOOTLOADER_SPI_WP_PIN",
                 "name": "BOOTLOADER_SPI_WP_PIN",
-                "range": [
-                    0,
-                    33
-                ],
+                "range": null,
                 "title": "SPI Flash WP Pin when customising pins via eFuse (read help)",
                 "type": "int"
             },
@@ -2401,7 +2398,10 @@
                                         "help": "This value is ignored unless flash mode is set to DIO or DOUT and the SPI flash pins have been\noverriden by setting the eFuses SPI_PAD_CONFIG_xxx.\n\nWhen this is the case, the eFuse config only defines 3 of the 4 Quad I/O data pins. The WP pin (aka\nESP32 pin \"SD_DATA_3\" or SPI flash pin \"IO2\") is not specified in eFuse. And the psram only has QPI\nmode, the WP pin is necessary, so we need to configure this value here.\n\nWhen flash mode is set to QIO or QOUT, the PSRAM WP pin will be set as the value configured in\nbootloader.\n\nFor ESP32-PICO chip, the default value of this config should be 7.",
                                         "id": "SPIRAM_SPIWP_SD3_PIN",
                                         "name": "SPIRAM_SPIWP_SD3_PIN",
-                                        "range": null,
+                                        "range": [
+                                            0,
+                                            33
+                                        ],
                                         "title": "SPI PSRAM WP(SD3) Pin when customising pins via eFuse (read help)",
                                         "type": "int"
                                     },
