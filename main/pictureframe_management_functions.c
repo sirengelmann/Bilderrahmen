@@ -5,7 +5,7 @@
 
 void pictureframe_deepsleep_init(){
 	//puts(gpio_get_level(36) ? "GPIO39 is HIGH" : "GPIO39 is LOW");
-	esp_sleep_enable_timer_wakeup((uint64_t)1000000 * CONFIG_SLEEP_SECONDS);
+	esp_sleep_enable_timer_wakeup(((uint64_t)1000000) * ((uint64_t)CONFIG_SLEEP_SECONDS));
 	esp_sleep_enable_ext1_wakeup((((uint64_t)1)<<39), ESP_EXT1_WAKEUP_ANY_HIGH);  //SENSOR VN -> IO39
 }
 
