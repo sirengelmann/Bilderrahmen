@@ -52,9 +52,10 @@
     - convert image data to E-Ink specific encoding and flush to display
     - read acceleration data from LIS3DH accelerometer in i2c mode, interrupt on crossing position threshold
     - remember which picture was displayed last in nvs flash, increment counter on every boot
+    - battery management code with undervoltage shutdown and use charging IC as interrupt source for re-enabling
+    - interrupt signal of the accelerometer as a wakeup source for the ESP32
  
   ### Currently NOT working, but planned to be implemented:
     - change the SD card interface to SDIO (when PCB is done)
     - support 600 x 448 images too
-    - implement battery management code with undervoltage shutdown and use charging IC as interrupt source for re-enabling
-    - use the interrupt signal of the accelerometer as a wakeup source for the ESP32
+   
