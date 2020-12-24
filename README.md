@@ -39,6 +39,8 @@
     - LIS3DH SDA: GPIO5
     - LIS3DH INT: GPIO35
     
+    - CHARGER INT: GPIO36
+    
   ## Software
   
   ### libraries taken from other people:
